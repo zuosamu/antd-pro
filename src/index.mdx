@@ -1,0 +1,165 @@
+---
+name: Table
+route: /table
+sidebar: true
+---
+
+import Table from './';
+import { Playground, Props } from 'docz';
+
+## API
+
+<Props of={Table} />
+
+# Table 组件
+
+## 基本用法
+
+<Playground>
+  {() => {
+    const getData = param =>
+      new Promise(res => {
+        setTimeout(() => {
+          res({ list: [{ name: '李二狗', age: '18', key: '1' }], page: { total: 1000 } });
+        }, 1000);
+      });
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+      },
+    ];
+    return <Table rowKey="name" api={{ handle: getData }} {...{ columns }} />;
+  }}
+</Playground>
+
+## 添加请求参数
+
+<Playground>
+  {() => {
+    const getData = param =>
+      new Promise(res => {
+        setTimeout(() => {
+          res({ list: [{ name: '李二狗', age: '18', key: '1' }], page: { total: 1000 } });
+        }, 1000);
+      });
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+      },
+    ];
+    return (
+      <Table rowKey="name" fliter={{ name: '李二狗' }} api={{ handle: getData }} {...{ columns }} />
+    );
+  }}
+</Playground>
+
+## 自定义数据获取路径
+
+<Playground>
+  {() => {
+    const getData = param =>
+      new Promise(res => {
+        setTimeout(() => {
+          res({ list: [{ name: '李二狗', age: '18', key: '1' }], page: { total: 1000 } });
+        }, 1000);
+      });
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+      },
+    ];
+    const api = {
+      handle: getData,
+      // 下面的例子配置项会把返回数据里面的list赋值给props.dataSource,拿到的page.total赋值给props.pagination.total
+      path: { dataSource: 'list', 'pagination.total': 'page.total' },
+    };
+    return <Table rowKey="name" api={api} {...{ columns }} />;
+  }}
+</Playground>
+
+## 处理返回数据
+
+<Playground>
+  {() => {
+    const getData = param =>
+      new Promise(res => {
+        setTimeout(() => {
+          res({ list: [{ name: '李二狗', age: '18', key: '1' }], page: { total: 1000 } });
+        }, 1000);
+      });
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+      },
+    ];
+    const api = {
+      handle: getData,
+      fn: resp => {
+        const { list, page } = resp;
+        return { list: [...list, { name: '张三爷', age: '19', key: '1' }], page };
+      },
+    };
+    return <Table rowKey="name" api={api} {...{ columns }} />;
+  }}
+</Playground>
+
+## 处理请求参数
+
+<Playground>
+  {() => {
+    const getData = param =>
+      new Promise(res => {
+        setTimeout(() => {
+          res({ list: [{ name: '李二狗', age: '18', key: '2' }], page: { total: 1000 } });
+        }, 1000);
+      });
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+      },
+    ];
+    const api = {
+      handle: getData,
+      req: resp => {
+        console.log(resp);
+        return resp;
+      },
+    };
+    return <Table api={api} {...{ columns }} />;
+  }}
+</Playground>
